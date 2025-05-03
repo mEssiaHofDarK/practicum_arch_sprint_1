@@ -1,0 +1,30 @@
+@startuml
+title "Warmhouse" Container Diagram
+top to bottom direction
+!include <C4/C4_Container>
+
+
+Person(user, "User", "A user of the warmhouse")
+Person(admin, "Administrator", "An administrator of the system")
+
+Container_Boundary(WarmhouseSystem, "Warmhouse System") {
+  Container(WebApp, "Web Application", "Node.js", "Handles users/admin interactions")
+  Container(MobileApp, "Mobile Application", "Kotlin, Swift", "Allows users to manage their devices, scenario and telemetry")
+  Container(API_App, "API Service", "Python [FastAPI(for example)]", "Processing users/admin interactions")
+  Container(Database, "Database", "PostgreSQL", "Stores user data, information about the user's devices and other")
+  Container(CRON, "CRON", "Celery", "Processing scenario")
+}
+
+System_Ext(external_email, "External EMAIL", "External EMAIL to inform users")
+
+Rel(user, WebApp, "Uses the system")
+Rel(user, MobileApp, "Uses the system")
+Rel(admin, WebApp,"Manages the system")
+Rel(external_email, user, "Send emails")
+Rel(WebApp, API_App, "Makes API requests [JSON/HTTPS]")
+Rel(MobileApp, API_App, "Makes API requests [JSON/HTTPS]")
+Rel(API_App, external_email, "Send emails [JSON/HTTPS]")
+Rel(API_App, Database, "Read/Write data [SQL]")
+Rel(API_App, CRON, "Processing scenario [Celery]")
+
+@enduml

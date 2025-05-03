@@ -1,0 +1,68 @@
+@startuml
+title "Warmhouse" Component Diagram
+top to bottom direction
+!include <C4/C4_Component>
+
+Container(WebApp, "Web Application", "Node.js", "Handles users/admin interactions")
+Container(MobileApp, "Mobile Application", "Kotlin, Swift", "Allows users to manage their devices, scenario and telemetry")
+Container(Database, "Database", "PostgreSQL", "Stores user data, information about the user's devices and other")
+Container(CRON, "CRON", "Celery", "Processing scenario")
+
+System_Ext(external_email, "External EMAIL", "External EMAIL to inform users")
+
+Container_Boundary(API_App, "API Service", "") {
+  Component(AuthController, "Auth Controller", "Handles authentication and authorization")
+  Component(UserController, "User Controller", "User API entry point")
+  Component(AdminController, "Admin Controller", "Admin API entry point")
+
+  Component(AuthComponent, "Auth Component", "Auth logic")
+  Component(ScenarioComponent, "Scenario Component", "Scenario logic")
+  Component(DeviceComponent, "Device Component", "Devices logic")
+  Component(AdminComponent, "Admin Component", "Logic for platform administration")
+  Component(TelemetryComponent, "Telemetry Component", "Telemetry logic")
+
+  Component(DBRepositoryLayer, "DB Repository Layer", "Data access logic")
+  Component(EMAILRepositoryLayer, "EMAIL Repository Layer", "Mailing info for users")
+  Component(CRONRepositoryLayer, CRON Repository Layer, "CRON access logic")
+}
+
+Rel(WebApp, AuthController, "")
+Rel(WebApp, AdminController, "")
+Rel(WebApp, UserController, "")
+
+Rel(MobileApp, AuthController, "")
+Rel(MobileApp, UserController, "")
+
+
+Rel(UserController, ScenarioComponent, "")
+Rel(UserController, DeviceComponent, "")
+Rel(UserController, TelemetryComponent, "")
+
+Rel(AdminController, DeviceComponent, "")
+Rel(AdminController, AdminComponent, "")
+Rel(AdminController, ScenarioComponent, "")
+Rel(AdminController, TelemetryComponent, "")
+
+Rel(AuthController, AuthComponent, "")
+
+
+Rel(AdminComponent, EMAILRepositoryLayer, "")
+Rel(AdminComponent, DBRepositoryLayer, "")
+
+Rel(ScenarioComponent, DBRepositoryLayer, "")
+Rel(ScenarioComponent, CRONRepositoryLayer, "")
+
+Rel(TelemetryComponent, DBRepositoryLayer, "")
+
+Rel(DeviceComponent, DBRepositoryLayer, "")
+
+Rel(AuthComponent, DBRepositoryLayer, "")
+
+
+Rel(EMAILRepositoryLayer, external_email, "")
+
+Rel(DBRepositoryLayer, Database, "Reads/Writes user data")
+
+Rel(CRONRepositoryLayer, CRON, "")
+
+@enduml

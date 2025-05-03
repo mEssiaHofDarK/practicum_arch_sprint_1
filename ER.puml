@@ -1,0 +1,43 @@
+@startuml
+entity "users" {
+  + id : uuid
+  name : text
+  email : text
+  role : text
+  password : text
+  created_at : timestamp
+  is_active : bool
+}
+
+entity "devices" {
+  + id : uuid
+  type : uuid
+  user_id : uuid
+  location : text
+  serial_number : text
+  created_at : timestamp
+  is_active : bool
+}
+
+entity "device_type" {
+  + id : uuid
+  name : text
+}
+
+entity "scenarios" {
+  + id : uuid
+  user_id : uuid
+  scenario_cond : jsonb
+}
+
+entity "scenario_devices" {
+  device_id : uuid
+  scenario_id : uuid
+}
+
+"device_type" ||--o{ "devices"
+"users" ||--o{ "devices"
+"users" ||--o{ "scenarios"
+"scenarios" }o--o{ "scenario_devices"
+"devices" }o--o{ "scenario_devices"
+@enduml

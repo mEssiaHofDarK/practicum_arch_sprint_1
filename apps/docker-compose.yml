@@ -16,7 +16,14 @@ services:
       - smarthome-network
 
   temperature-api:
-  ## тут нужно добавить приложение
+    build:
+      context: ./temperature-api
+      dockerfile: Dockerfile
+    container_name: temperature-api
+    ports:
+      - 8081:8080
+    networks:
+      - smarthome-network
 
   app:
     build:

@@ -1,0 +1,19 @@
+@startuml
+title "Warmhouse" Context Diagram
+
+top to bottom direction
+
+!include <C4/C4_Context>
+
+Person(user, "User", "A user of the warmhouse")
+Person(admin, "Administrator", "An administrator of the system")
+System(WarmhouseSystem, "Warmhouse System", "System managing auth, telemetry, add/remove devices, scenario")
+
+System_Ext(external_email, "External EMAIL", "External EMAIL to inform users")
+
+Rel(user, WarmhouseSystem, "Uses the system")
+Rel(admin,WarmhouseSystem,"Manages the system")
+Rel(WarmhouseSystem,external_email,"Sending data for email")
+Rel(external_email,user,"Sending email")
+
+@enduml
