@@ -53,7 +53,7 @@
 Замените `Текст ссылки` текстом, который хотите использовать для ссылки. Вместо `URL` вставьте адрес, на который должна вести ссылка. Например:
 
 ```markdown
-[Схема контекста](не забыть вставить ссылку)
+[Схема контекста](https://github.com/mEssiaHofDarK/practicum_arch_sprint_1/blob/warmhouse/Context.puml)
 ```
 
 # Задание 2. Проектирование микросервисной архитектуры
@@ -63,7 +63,7 @@
 **Диаграмма контейнеров (Containers)**
 
 ```markdown
-[Схема контейнеров](не забыть вставить ссылку)
+[Схема контейнеров]https://github.com/mEssiaHofDarK/practicum_arch_sprint_1/blob/warmhouse/Container.puml)
 ```
 
 **Диаграмма компонентов (Components)**
@@ -71,22 +71,20 @@
 Добавьте диаграмму для каждого из выделенных микросервисов.
 
 ```markdown
-[Схема компонентов](не забыть вставить ссылку)
+[Схема компонентов](https://github.com/mEssiaHofDarK/practicum_arch_sprint_1/blob/warmhouse/Component.puml)
 ```
 
 **Диаграмма кода (Code)**
 
 Добавьте одну диаграмму или несколько.
 
-```markdown
-[Схема кода](не забыть вставить ссылку)
-```
+этот раздел покрывает часть со сваггером
 
 # Задание 3. Разработка ER-диаграммы
 
 Добавьте сюда ER-диаграмму. Она должна отражать ключевые сущности системы, их атрибуты и тип связей между ними.
 ```markdown
-[ER](не забыть вставить ссылку)
+[ER](https://github.com/mEssiaHofDarK/practicum_arch_sprint_1/blob/warmhouse/ER.puml)
 ```
 
 # Задание 4. Создание и документирование API
@@ -101,7 +99,7 @@ REST API - пока не вижу мест для применения друг�
 
 Здесь приложите ссылки на документацию API для микросервисов, которые вы спроектировали в первой части проектной работы. Для документирования используйте Swagger/OpenAPI или AsyncAPI.
 ```markdown
-[swagger](не забыть вставить ссылку)
+[swagger](https://github.com/mEssiaHofDarK/practicum_arch_sprint_1/blob/warmhouse/warmhouse.json)
 ```
 # Задание 5. Работа с docker и docker-compose
 
