@@ -1,0 +1,237 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API Title",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/api/v1"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Log in",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pass",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+		  "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+    "/auth/reg": {
+      "post": {
+        "description": "Registration",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "schema": {
+			  "type": "string"
+      		}
+          },
+          {
+            "in": "query",
+            "name": "pass",
+            "required": true,
+            "schema": {
+			  "type": "string"
+      		}
+          },
+          {
+            "in": "query",
+            "name": "conf_pass",
+            "required": true,
+            "schema": {
+			  "type": "string"
+      		}
+          }
+		],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+		  "400": {
+            "description": "User already exists"
+          },
+		  "500": {
+            "description": "Unexpected server error"
+          }
+		}
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "Logout",
+        "parameters": [ ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+		  "500": {
+            "description": "Unexpected server error"
+          }
+        }
+      }
+    },
+    "/devices/{user_id}/add": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serial_number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "location",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices/{user_id}/remove": {
+      "delete": {
+        "description": "remove user device",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "device_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices/{user_id}/update": {
+      "patch": {
+        "description": "update user device info",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "new_location",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "device_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "User or device not found"
+          },
+          "500": {
+            "description": "Unexpected server error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/devices/{user_id}": {
+      "get": {
+        "description": "get all user devices",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "User not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
