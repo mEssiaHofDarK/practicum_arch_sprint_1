@@ -10,58 +10,81 @@ Container(CRON, "CRON", "Celery", "Processing scenario")
 
 System_Ext(external_email, "External EMAIL", "External EMAIL to inform users")
 
-Container_Boundary(API_App, "API Service", "") {
-  Component(AuthController, "Auth Controller", "Handles authentication and authorization")
-  Component(UserController, "User Controller", "User API entry point")
-  Component(AdminController, "Admin Controller", "Admin API entry point")
-
-  Component(AuthComponent, "Auth Component", "Auth logic")
-  Component(ScenarioComponent, "Scenario Component", "Scenario logic")
+Container_Boundary(Device_App, "Device Service", "") {
+  Component(DeviceController, "Device Controller", "Devices entry point")
   Component(DeviceComponent, "Device Component", "Devices logic")
-  Component(AdminComponent, "Admin Component", "Logic for platform administration")
-  Component(TelemetryComponent, "Telemetry Component", "Telemetry logic")
+  Component(DeviceDBRepositoryLayer, "DB Repository Layer", "Data access logic")
+}
 
-  Component(DBRepositoryLayer, "DB Repository Layer", "Data access logic")
-  Component(EMAILRepositoryLayer, "EMAIL Repository Layer", "Mailing info for users")
+Container_Boundary(Telemetry_App, "Telemetry Service", ""){
+  Component(TelemetryController, "Telemetry Controller", "Telemetry entry point")
+  Component(TelemetryComponent, "Telemetry Component", "Telemetry logic")
+  Component(TelemetryDBRepositoryLayer, "DB Repository Layer", "Data access logic")
+}
+
+Container_Boundary(auth_app, "Auth Service", ""){
+  Component(AuthController, "Auth Controller", "Handles authentication and authorization(generate JWT)")
+  Component(AuthComponent, "Auth Component", "Auth logic")
+  Component(AuthDBRepositoryLayer, "DB Repository Layer", "Data access logic")
+}
+
+Container_Boundary(scenario_app, "Scenario Service", ""){
+  Component(ScenarioController, "Scenario Controller", "Scenario entry point")
+  Component(ScenarioComponent, "Scenario Component", "Scenario logic")
+  Component(ScenarioDBRepositoryLayer, "DB Repository Layer", "Data access logic")
   Component(CRONRepositoryLayer, CRON Repository Layer, "CRON access logic")
 }
 
+Container_Boundary(admin_app, "Admin Service", ""){
+  Component(AdminController, "Admin Controller", "Admin entry point")
+  Component(AdminComponent, "Admin Component", "Logic for platform administration")
+  Component(AdminDBRepositoryLayer, "DB Repository Layer", "Data access logic")
+  Component(EMAILRepositoryLayer, "EMAIL Repository Layer", "Mailing info for users")
+}
+
 Rel(WebApp, AuthController, "")
+Rel(WebApp, ScenarioController, "")
 Rel(WebApp, AdminController, "")
-Rel(WebApp, UserController, "")
+Rel(WebApp, DeviceController, "")
+Rel(WebApp, TelemetryController, "")
 
 Rel(MobileApp, AuthController, "")
-Rel(MobileApp, UserController, "")
+Rel(MobileApp, DeviceController, "")
+Rel(MobileApp, TelemetryController, "")
+Rel(MobileApp, ScenarioController, "")
 
-
-Rel(UserController, ScenarioComponent, "")
-Rel(UserController, DeviceComponent, "")
-Rel(UserController, TelemetryComponent, "")
-
-Rel(AdminController, DeviceComponent, "")
-Rel(AdminController, AdminComponent, "")
-Rel(AdminController, ScenarioComponent, "")
-Rel(AdminController, TelemetryComponent, "")
 
 Rel(AuthController, AuthComponent, "")
 
+Rel(ScenarioController, ScenarioComponent, "")
+
+Rel(AdminController, AdminComponent, "")
+
+Rel(DeviceController, DeviceComponent, "")
+
+Rel(TelemetryController, TelemetryComponent, "")
+
 
 Rel(AdminComponent, EMAILRepositoryLayer, "")
-Rel(AdminComponent, DBRepositoryLayer, "")
+Rel(AdminComponent, AdminDBRepositoryLayer, "")
 
-Rel(ScenarioComponent, DBRepositoryLayer, "")
+Rel(ScenarioComponent, ScenarioDBRepositoryLayer, "")
 Rel(ScenarioComponent, CRONRepositoryLayer, "")
 
-Rel(TelemetryComponent, DBRepositoryLayer, "")
+Rel(TelemetryComponent, TelemetryDBRepositoryLayer, "")
 
-Rel(DeviceComponent, DBRepositoryLayer, "")
+Rel(DeviceComponent, DeviceDBRepositoryLayer, "")
 
-Rel(AuthComponent, DBRepositoryLayer, "")
+Rel(AuthComponent, AuthDBRepositoryLayer, "")
 
 
 Rel(EMAILRepositoryLayer, external_email, "")
 
-Rel(DBRepositoryLayer, Database, "Reads/Writes user data")
+Rel(AuthDBRepositoryLayer, Database, "Reads/Writes user data")
+Rel(AdminDBRepositoryLayer, Database, "Reads/Writes user data")
+Rel(ScenarioDBRepositoryLayer, Database, "Reads/Writes user data")
+Rel(DeviceDBRepositoryLayer, Database, "Reads/Writes user data")
+Rel(TelemetryDBRepositoryLayer, Database, "Reads/Writes user data")
 
 Rel(CRONRepositoryLayer, CRON, "")
 

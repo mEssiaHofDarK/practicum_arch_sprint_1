@@ -10,7 +10,11 @@ Person(admin, "Administrator", "An administrator of the system")
 Container_Boundary(WarmhouseSystem, "Warmhouse System") {
   Container(WebApp, "Web Application", "Node.js", "Handles users/admin interactions")
   Container(MobileApp, "Mobile Application", "Kotlin, Swift", "Allows users to manage their devices, scenario and telemetry")
-  Container(API_App, "API Service", "Python [FastAPI(for example)]", "Processing users/admin interactions")
+  Container(auth_service, "Auth Service", "Python [FastAPI(for example)]", "Authorization/authentication service")
+  Container(admin_service, "Admin Service", "Python [FastAPI(for example)]", "Admin control service")
+  Container(devices_service, "Devices Service", "Python [FastAPI(for example)]", "Device control service")
+  Container(telemetry_service, "Telemetry Service", "Python [FastAPI(for example)]", "Telemetry control service")
+  Container(scenario_service, "Scenario Service", "Python [FastAPI(for example)]", "Scenario control service")
   Container(Database, "Database", "PostgreSQL", "Stores user data, information about the user's devices and other")
   Container(CRON, "CRON", "Celery", "Processing scenario")
 }
@@ -19,12 +23,34 @@ System_Ext(external_email, "External EMAIL", "External EMAIL to inform users")
 
 Rel(user, WebApp, "Uses the system")
 Rel(user, MobileApp, "Uses the system")
-Rel(admin, WebApp,"Manages the system")
-Rel(external_email, user, "Send emails")
-Rel(WebApp, API_App, "Makes API requests [JSON/HTTPS]")
-Rel(MobileApp, API_App, "Makes API requests [JSON/HTTPS]")
-Rel(API_App, external_email, "Send emails [JSON/HTTPS]")
-Rel(API_App, Database, "Read/Write data [SQL]")
-Rel(API_App, CRON, "Processing scenario [Celery]")
 
+Rel(admin, WebApp,"Manages the system")
+
+
+Rel(WebApp, auth_service, "Makes API requests [JSON/HTTPS]")
+Rel(WebApp, admin_service, "Makes API requests [JSON/HTTPS]")
+Rel(WebApp, devices_service, "Makes API requests [JSON/HTTPS]")
+Rel(WebApp, telemetry_service, "Makes API requests [JSON/HTTPS]")
+Rel(WebApp, scenario_service, "Makes API requests [JSON/HTTPS]")
+
+
+Rel(MobileApp, auth_service, "Makes API requests [JSON/HTTPS]")
+Rel(MobileApp, devices_service, "Makes API requests [JSON/HTTPS]")
+Rel(MobileApp, telemetry_service, "Makes API requests [JSON/HTTPS]")
+Rel(MobileApp, scenario_service, "Makes API requests [JSON/HTTPS]")
+
+
+Rel(admin_service, external_email, "Send emails [JSON/HTTPS]")
+Rel(admin_service, Database, "Read/Write data [SQL]")
+
+Rel(auth_service, Database, "Read/Write data [SQL]")
+
+Rel(scenario_service, CRON, "Processing scenario [Celery]")
+Rel(scenario_service, Database, "Read/Write data [SQL]")
+
+Rel(devices_service, Database, "Read/Write data [SQL]")
+
+Rel(telemetry_service, Database, "Read/Write data [SQL]")
+
+Rel(external_email, user, "Send emails")
 @enduml
